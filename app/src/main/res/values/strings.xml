@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">MDT</string>
+    <string name="login">Login</string>
+    <string name="user_name_hint">User name</string>
+    <string name="password_hint">Password</string>
+    <string name="login_btn_txt">LOGIN</string>
+    <string name="sign_up_btn_txt">Sign up</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Username required</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="welcome">Welcome!</string>
 </resources>
