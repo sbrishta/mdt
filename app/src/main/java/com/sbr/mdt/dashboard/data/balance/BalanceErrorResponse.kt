@@ -1,4 +1,4 @@
-package com.sbr.mdt.api.balance
+package com.sbr.mdt.dashboard.data.balance
 
 data class BalanceErrorResponse(
     val error: Error,

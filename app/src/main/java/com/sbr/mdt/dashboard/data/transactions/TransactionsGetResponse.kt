@@ -1,4 +1,4 @@
-package com.sbr.mdt.api.transactions
+package com.sbr.mdt.dashboard.data.transactions
 
 data class TransactionsGetResponse(
     val `data`: List<Data>,
