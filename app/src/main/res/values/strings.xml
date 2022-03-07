@@ -14,4 +14,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="welcome">Welcome!</string>
+    <string name="btn_make_transfer_txt">MAKE TRANSFER</string>
+    <string name="transaction_history_title">Your transaction history</string>
+    <string name="you_have">You have</string>
+    <string name="account_no_title">Account No</string>
+    <string name="account_holder_title">Account Holder</string>
+    <string name="logout">Logout</string>
 </resources>

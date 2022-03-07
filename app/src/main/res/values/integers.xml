@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="left_guideline">.15</fraction>
+    <fraction name="right_guideline">.85</fraction>
+</resources>

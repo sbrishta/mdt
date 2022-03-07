@@ -72,14 +72,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".15" />
+        app:layout_constraintGuide_percent="@fraction/left_guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".85" />
+        app:layout_constraintGuide_percent="@fraction/right_guideline" />
 
     <Button
         android:id="@+id/btn_login"
@@ -87,6 +87,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_btn_txt"
+        android:background="@color/round_button_color"
         app:layout_constraintDimensionRatio="5:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
