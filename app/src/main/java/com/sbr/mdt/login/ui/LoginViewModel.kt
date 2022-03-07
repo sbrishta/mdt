@@ -5,15 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sbr.mdt.R
-import com.sbr.mdt.api.balance.BalanceGetResponse
 import com.sbr.mdt.login.LoggedInUserView
 import com.sbr.mdt.login.LoginResult
 import com.sbr.mdt.login.data.LoginRepository
-import com.sbr.mdt.login.data.Result
 import com.sbr.mdt.login.data.api.LoginRequest
 import com.sbr.mdt.login.data.api.LoginResponse
-import com.sbr.mdt.util.Constants
-import com.sbr.mdt.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 

@@ -16,7 +16,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.sbr.mdt.R
-import com.sbr.mdt.dashboard.MainActivity
+import com.sbr.mdt.dashboard.ui.MainActivity
 
 import com.sbr.mdt.databinding.ActivityLoginBinding
 import com.sbr.mdt.login.LoggedInUserView
@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         // start main activity
         startActivity(intent)
-        finish()
+        //finish()
     }
 
     private fun updateUiWithUser(model : LoggedInUserView) {
