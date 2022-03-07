@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sbr.mdt.dashboard.MainActivity"
+            android:name="com.sbr.mdt.dashboard.ui.MainActivity"
             android:exported="false" />
     </application>
 
