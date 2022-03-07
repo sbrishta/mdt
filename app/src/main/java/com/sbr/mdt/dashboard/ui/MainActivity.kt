@@ -8,28 +8,43 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sbr.mdt.R
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
+import com.sbr.mdt.databinding.ActivityLoginBinding
+import com.sbr.mdt.databinding.ActivityMainBinding
 import com.sbr.mdt.util.Resource
 import com.sbr.mdt.util.SessionManager
 
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel : DashBoardViewModel
+    private lateinit var binding : ActivityMainBinding
+
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val balance = binding.tvBalance
+        val accountNo = binding.tvAccountNo
+        val accountHolder = binding.tvAccountHolder
+        val makeTransfer = binding.btnMakeTransfer
+        val logout = binding.btnLogout
 
         val token = SessionManager(this).fetchAuthToken()
         val repository = TransactionBalanceRepository(token)
         val viewModelProviderFactory = DashBoardViewModelProviderFactory(repository)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(DashBoardViewModel::class.java)
-        findViewById<Button>(R.id.button).setOnClickListener {
+        makeTransfer.setOnClickListener {
             viewModel.getBalanceData()
             viewModel.getTransactions()
+        }
+        logout.setOnClickListener{
+            viewModel.logout()
         }
         viewModel.userBalance.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    Log.d("BALANCe", response.data.toString())
+
                 }
                 is Resource.Error -> {
                     Log.d("BALANCe", response.message.toString())
