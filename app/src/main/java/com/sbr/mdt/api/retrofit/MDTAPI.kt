@@ -1,12 +1,11 @@
 package com.sbr.mdt.api.retrofit
 
-import com.sbr.mdt.api.balance.BalanceGetResponse
+import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.api.payees.PayeesGetResponse
-import com.sbr.mdt.api.transactions.TransactionsGetResponse
+import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
 import com.sbr.mdt.login.data.api.LoginRequest
 import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.util.Constants
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
