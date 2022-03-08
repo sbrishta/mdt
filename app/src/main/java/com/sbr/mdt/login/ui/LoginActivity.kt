@@ -113,11 +113,10 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         //----------------------
-        SessionManager(this).saveAuthToken(model.authToken) //temporarily saving in loginactivity. later would move to business logic
-        //----------------------------
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
+        SessionManager.saveAuthToken(model.authToken) //temporarily saving in loginactivity. later would move to business logic
+                    //----------------------------
+                    Toast . makeText (
+                    applicationContext,
             "$welcome $displayName",
             Toast.LENGTH_LONG
         ).show()

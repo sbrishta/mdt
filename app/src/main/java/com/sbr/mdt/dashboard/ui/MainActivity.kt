@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val makeTransfer = binding.btnMakeTransfer
         val logout = binding.btnLogout
 
-        val token = SessionManager(this).fetchAuthToken()
+        val token = SessionManager.fetchAuthToken()
         val repository = TransactionBalanceRepository(token)
         val viewModelProviderFactory = DashBoardViewModelProviderFactory(repository)
         viewModel =
