@@ -1,6 +1,6 @@
 package com.sbr.mdt.dashboard.data.transactions
 
-data class Data(
+data class TransactionInfo(
     val amount: Double,
     val description: String,
     val receipient: Receipient,

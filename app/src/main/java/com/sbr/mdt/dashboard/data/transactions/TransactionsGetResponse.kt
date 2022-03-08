@@ -1,6 +1,6 @@
 package com.sbr.mdt.dashboard.data.transactions
 
 data class TransactionsGetResponse(
-    val `data`: List<Data>,
+    val `data`: List<TransactionInfo>,
     val status: String
 )
