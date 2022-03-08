@@ -58,7 +58,7 @@ class LoginViewModel(private val loginRepository : LoginRepository) : ViewModel(
 
     // A placeholder password validation check
     private fun isPasswordValid(password : String) : Boolean {
-        return password.length > 5
+        return password.length >= 1
     }
 
     fun saveLoginUser(model:LoginResponse){

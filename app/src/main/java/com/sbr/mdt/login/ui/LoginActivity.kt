@@ -1,5 +1,7 @@
 package com.sbr.mdt.login.ui
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +12,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -36,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.btnLogin
         val register = binding.btnRegister
         val loading = binding.loginProgress
+        login.isEnabled = false
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -98,9 +102,13 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
     private fun startLogin(loading:ProgressBar,username:TextInputEditText,password:TextInputEditText){
         loading.visibility = View.VISIBLE
+        hideKeyboard((currentFocus?: this) as View)
         loginViewModel.login(username.text.toString().trim(), password.text.toString().trim())
     }
     private fun showDashBoard() {
