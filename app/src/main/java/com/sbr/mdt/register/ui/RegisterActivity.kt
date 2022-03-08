@@ -1,12 +1,10 @@
-package com.sbr.mdt.login.ui
+package com.sbr.mdt.register.ui
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,38 +16,35 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.sbr.mdt.R
-import com.sbr.mdt.dashboard.ui.MainActivity
 
-import com.sbr.mdt.databinding.ActivityLoginBinding
-import com.sbr.mdt.login.data.api.LoginResponse
-import com.sbr.mdt.register.ui.RegisterActivity
+import com.sbr.mdt.databinding.ActivityRegisterBinding
+import com.sbr.mdt.register.api.RegisterResponse
 import com.sbr.mdt.util.Resource
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel : LoginViewModel
-    private lateinit var binding : ActivityLoginBinding
+    private lateinit var viewModel : RegisterViewModel
+    private lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val username = binding.etUsername
         val password = binding.etPassword
-        val login = binding.btnLogin
+        val confirmPassword = binding.etConfirmPassword
         val register = binding.btnRegister
         val loading = binding.loginProgress
-        login.isEnabled = false
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this, RegisterViewModelFactory())
+            .get(RegisterViewModel::class.java)
 
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
+        viewModel.registerFormState.observe(this, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+//            login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -57,18 +52,22 @@ class LoginActivity : AppCompatActivity() {
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
             }
+            if (loginState.passwordMatchError != null) {
+                confirmPassword.error = getString(loginState.passwordMatchError)
+            }
         })
 
 
-        loginViewModel.loginResponse.observe(this, Observer {
+        viewModel.loginResponse.observe(this, Observer {
             loading.visibility = View.GONE
             when(it){
                 is Resource.Success -> {
-                    it.data?.let { it1 -> LoginResponse(it1.accountNo,it.data.status,it.data.token,it.data.username) }
+                    it.data?.let { it1 -> RegisterResponse(it1.status,it.data.token) }
                         ?.let { it2 -> updateUiWithUser(it2) }
                 }
                 is Resource.Error -> {
-                    showLoginFailed(R.string.login_failed)
+
+                    showLoginFailed(it.message)
                 }
                 is Resource.Loading ->{
                     //wait for the loading to finish. might showing please wait message in future
@@ -76,17 +75,19 @@ class LoginActivity : AppCompatActivity() {
             }
         })
         username.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            viewModel.loginDataChanged(
                 username.text.toString(),
-                password.text.toString()
+                password.text.toString(),
+                confirmPassword.text.toString()
             )
         }
 
         password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
+                viewModel.loginDataChanged(
                     username.text.toString(),
-                    password.text.toString()
+                    password.text.toString(),
+                    confirmPassword.text.toString()
                 )
             }
 
@@ -98,20 +99,10 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
         }
-        login.setOnClickListener {
+        register.setOnClickListener {
             startLogin(loading,username,password)
         }
-        register.setOnClickListener {
-            startRegistration()
-        }
     }
-
-    private fun startRegistration() {
-        val intent = Intent(this, RegisterActivity::class.java)
-        // start main activity
-        startActivity(intent)
-    }
-
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -119,31 +110,27 @@ class LoginActivity : AppCompatActivity() {
     private fun startLogin(loading:ProgressBar,username:TextInputEditText,password:TextInputEditText){
         loading.visibility = View.VISIBLE
         hideKeyboard((currentFocus?: this) as View)
-        loginViewModel.login(username.text.toString().trim(), password.text.toString().trim())
+        viewModel.register(username.text.toString().trim(), password.text.toString().trim())
     }
     private fun showDashBoard() {
-        val intent = Intent(this, MainActivity::class.java)
-        // start main activity
-        startActivity(intent)
+        onBackPressed()
         finish()
     }
 
-    private fun updateUiWithUser(model : LoginResponse) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.username
-        //----------------------
-       loginViewModel.saveLoginUser(model)
-                    //----------------------------
+    private fun updateUiWithUser(model : RegisterResponse) {
+        val welcome = getString(R.string.register_success)
+        val displayName =
+
                     Toast . makeText (
                     applicationContext,
-            "$welcome $displayName",
+            "$welcome ",
             Toast.LENGTH_LONG
         ).show()
         showDashBoard()
     }
 
-    private fun showLoginFailed(@StringRes errorString : Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showLoginFailed(errorString : String?) {
+        Toast.makeText(applicationContext, errorString ?: getString(R.string.register_failed), Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -158,6 +145,8 @@ fun EditText.afterTextChanged(afterTextChanged : (String) -> Unit) {
 
         override fun beforeTextChanged(s : CharSequence, start : Int, count : Int, after : Int) {}
 
-        override fun onTextChanged(s : CharSequence, start : Int, before : Int, count : Int) {}
+        override fun onTextChanged(s : CharSequence, start : Int, before : Int, count : Int) {
+            afterTextChanged.invoke(s.toString())
+        }
     })
 }

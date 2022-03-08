@@ -5,6 +5,8 @@ import com.sbr.mdt.api.payees.PayeesGetResponse
 import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
 import com.sbr.mdt.login.data.api.LoginRequest
 import com.sbr.mdt.login.data.api.LoginResponse
+import com.sbr.mdt.register.api.RegisterRequest
+import com.sbr.mdt.register.api.RegisterResponse
 import com.sbr.mdt.util.Constants
 import retrofit2.Response
 import retrofit2.http.*
@@ -23,6 +25,9 @@ interface MDTAPI {
 
     @POST("login")
     suspend fun login(@Body request : LoginRequest) : Response<LoginResponse>
+
+    @POST("register")
+    suspend fun register(@Body request : RegisterRequest) : Response<RegisterResponse>
 
 
 }
