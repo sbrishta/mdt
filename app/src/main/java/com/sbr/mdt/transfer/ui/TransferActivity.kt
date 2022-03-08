@@ -1,16 +1,17 @@
 package com.sbr.mdt.transfer.ui
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
 import com.sbr.mdt.R
 import com.sbr.mdt.databinding.ActivityTransferBinding
 import com.sbr.mdt.transfer.data.payees.Payee
@@ -75,6 +76,19 @@ class TransferActivity : AppCompatActivity() {
             }
 
         })
+        viewModel.transferFormState.observe(this, Observer {
+            val formState = it ?: return@Observer
+
+            if (formState.amountError != null) {
+                amount.error = getString(formState.amountError)
+            }
+
+
+        })
+        viewModel.formDataChanged(amount.text.toString())
+        amount.afterTextChanged {
+            viewModel.formDataChanged(amount.text.toString())
+        }
         spPayee.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0 : AdapterView<*>?, p1 : View?, p2 : Int, p3 : Long) {
                 selectedPayee = spPayee.selectedItem as Payee
@@ -86,12 +100,20 @@ class TransferActivity : AppCompatActivity() {
         }
 
         makeTransfer.setOnClickListener {
-            loading.visibility = View.VISIBLE
-            val amountData = amount.text.toString().toDouble()
-            val desc = description.text.toString()
-            viewModel.makeTransfer(amountData,desc,selectedPayee.accountNo)
+            startMakingTransfer(loading,amount, description)
         }
 
+    }
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+    private fun startMakingTransfer(loading:ProgressBar,amount:TextInputEditText,description:TextInputEditText){
+        loading.visibility = View.VISIBLE
+        hideKeyboard((currentFocus?:this) as View)
+        val amountData = amount.text.toString().toDouble()
+        val desc = description.text.toString()
+        viewModel.makeTransfer(amountData,desc,selectedPayee.accountNo)
     }
     private fun transferSuccess() {
         val welcome = getString(R.string.transfer_success)

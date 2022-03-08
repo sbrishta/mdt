@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".transfer.ui.TransferActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
 
     <Spinner
         android:id="@+id/sp_payee"
@@ -69,10 +73,12 @@
         android:background="@drawable/rounded_corner_button"
         android:text="@string/btn_make_transfer_txt"
         app:layout_constraintDimensionRatio="5:1"
+        android:layout_marginTop="@dimen/button_margin"
         android:layout_marginBottom="@dimen/button_margin"
         app:layout_constraintEnd_toEndOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@id/guideline7"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_description"
          />
 
     <ProgressBar
@@ -102,3 +108,4 @@
         app:layout_constraintGuide_percent="@fraction/right_guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

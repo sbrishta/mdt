@@ -1,13 +1,10 @@
 package com.sbr.mdt.transfer.ui
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
-import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
-import com.sbr.mdt.register.api.RegisterRequest
-import com.sbr.mdt.register.api.RegisterResponse
+import com.sbr.mdt.R
 import com.sbr.mdt.transfer.data.payees.PayeesGetResponse
 import com.sbr.mdt.transfer.data.post_transfer.TransferRequest
 import com.sbr.mdt.transfer.data.post_transfer.TransferResponse
@@ -57,5 +54,26 @@ class TransferViewModel(val repository : TransferRepository):ViewModel() {
         return Resource.Error(response.body(),msg)
 
     }
+
+    private val _transferFormState = MutableLiveData<TransferFormState>()
+    val transferFormState : LiveData<TransferFormState> = _transferFormState
+
+
+    fun formDataChanged(amount : String) {
+        if (!isAmountValid(amount)) {
+            _transferFormState.value = TransferFormState(amountError = R.string.invalid_amount)
+        } else {
+            _transferFormState.value = TransferFormState(isDataValid = true)
+        }
+    }
+
+    private fun isAmountValid(amount : String) : Boolean {
+        if(amount.length > 0 ){
+            val amountData = amount.toDouble()
+            return amountData > 0
+        }
+        return false
+    }
+
 
 }
