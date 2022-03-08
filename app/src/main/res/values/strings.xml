@@ -25,7 +25,12 @@
     <string name="account_no_title">Account No</string>
     <string name="account_holder_title">Account Holder</string>
     <string name="logout">Logout</string>
+    <string name="sp_payee_title">Payee</string>
+    <string name="transfer_success">Transferred successfully</string>
+    <string name="transfer_failed">Transfer Failed</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="currency_formatter">SGD %,.2f</string>
+    <string name="amount_title">Amount</string>
+    <string name="description_title">Description</string>
 </resources>

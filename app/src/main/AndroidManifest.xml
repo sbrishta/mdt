@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MDT">
-
+        <activity
+            android:name=".transfer.ui.TransferActivity"
+            android:exported="false" />
         <activity
             android:name=".login.ui.LoginActivity"
             android:exported="true">
@@ -23,12 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sbr.mdt.dashboard.ui.MainActivity"
+            android:name=".dashboard.ui.MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.sbr.mdt.register.ui.RegisterActivity"
+            android:name=".register.ui.RegisterActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

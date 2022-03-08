@@ -1,5 +1,6 @@
 package com.sbr.mdt.dashboard.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -11,6 +12,8 @@ import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
 import com.sbr.mdt.databinding.ActivityMainBinding
 import com.sbr.mdt.login.data.api.LoginResponse
+import com.sbr.mdt.register.ui.RegisterActivity
+import com.sbr.mdt.transfer.ui.TransferActivity
 import com.sbr.mdt.util.Constants
 import com.sbr.mdt.util.Resource
 import com.sbr.mdt.util.SessionManager
@@ -46,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         makeTransfer.setOnClickListener {
-
+            goToTransfer()
 
         }
         logout.setOnClickListener{
@@ -83,5 +86,10 @@ class MainActivity : AppCompatActivity() {
         val balanceData = response.data?.balance?.toDouble()
         val formatted = java.lang.String.format(Locale.getDefault(),getString(R.string.currency_formatter), balanceData)
         balance.text = formatted
+    }
+    private fun goToTransfer(){
+        val intent = Intent(this, TransferActivity::class.java)
+        // start main activity
+        startActivity(intent)
     }
 }
