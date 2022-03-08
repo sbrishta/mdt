@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sbr.mdt.R
-import com.sbr.mdt.login.LoggedInUserView
-import com.sbr.mdt.login.LoginResult
 import com.sbr.mdt.login.data.LoginRepository
 import com.sbr.mdt.login.data.api.LoginRequest
 import com.sbr.mdt.login.data.api.LoginResponse
+import com.sbr.mdt.util.Constants
+import com.sbr.mdt.util.Resource
+import com.sbr.mdt.util.SessionManager
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -19,35 +20,22 @@ class LoginViewModel(private val loginRepository : LoginRepository) : ViewModel(
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState : LiveData<LoginFormState> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult : LiveData<LoginResult> = _loginResult
-
-//    fun login(username : String, password : String) {
-//        // can be launched in a separate asynchronous job
-//        val result = loginRepository.login(username, password)
-//
-//        if (result is Result.Success) {
-//            _loginResult.value =
-//                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-//        } else {
-//            _loginResult.value = LoginResult(error = R.string.login_failed)
-//        }
-//    }
+    val loginResponse:MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
 
     fun login(username : String,password : String){
         viewModelScope.launch {
             val response = loginRepository.login(LoginRequest(username,password))
-            _loginResult.postValue(handleLoginResponse(response))
+            loginResponse.postValue(handleLoginResponse(response))
         }
     }
 
-    private fun handleLoginResponse(response : Response<LoginResponse>) : LoginResult {
+    private fun handleLoginResponse(response : Response<LoginResponse>) : Resource<LoginResponse> {
         if(response.isSuccessful){
             response.body()?.let { resultData ->
-                return LoginResult(success = LoggedInUserView(displayName = resultData.username,resultData.token))
+                return Resource.Success(resultData)
             }
         }
-        return LoginResult(error = R.string.login_failed)
+        return Resource.Error(response.body(),response.errorBody().toString()+response.message())
 
     }
 
@@ -71,5 +59,10 @@ class LoginViewModel(private val loginRepository : LoginRepository) : ViewModel(
     // A placeholder password validation check
     private fun isPasswordValid(password : String) : Boolean {
         return password.length > 5
+    }
+
+    fun saveLoginUser(model:LoginResponse){
+        SessionManager.put(model,Constants.USER_DATA)
+        SessionManager.saveAuthToken(model.token)
     }
 }
