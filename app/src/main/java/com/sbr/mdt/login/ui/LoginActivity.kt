@@ -1,6 +1,5 @@
 package com.sbr.mdt.login.ui
 
-import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,8 +18,8 @@ import com.sbr.mdt.R
 import com.sbr.mdt.dashboard.ui.MainActivity
 
 import com.sbr.mdt.databinding.ActivityLoginBinding
-import com.sbr.mdt.login.LoggedInUserView
-import com.sbr.mdt.util.SessionManager
+import com.sbr.mdt.login.data.api.LoginResponse
+import com.sbr.mdt.util.Resource
 
 class LoginActivity : AppCompatActivity() {
 
@@ -55,20 +54,22 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
 
+        loginViewModel.loginResponse.observe(this, Observer {
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
+            when(it){
+                is Resource.Success -> {
+                    it.data?.let { it1 -> LoginResponse(it1.accountNo,it.data.status,it.data.token,it.data.username) }
+                        ?.let { it2 -> updateUiWithUser(it2) }
+                }
+                is Resource.Error -> {
+                    showLoginFailed(R.string.login_failed)
+                }
+                is Resource.Loading ->{
+                    //wait for the loading to finish. might showing please wait message in future
+                }
             }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
-            setResult(Activity.RESULT_OK)
-
         })
-
         username.afterTextChanged {
             loginViewModel.loginDataChanged(
                 username.text.toString(),
@@ -106,14 +107,14 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         // start main activity
         startActivity(intent)
-        //finish()
+        finish()
     }
 
-    private fun updateUiWithUser(model : LoggedInUserView) {
+    private fun updateUiWithUser(model : LoginResponse) {
         val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+        val displayName = model.username
         //----------------------
-        SessionManager.saveAuthToken(model.authToken) //temporarily saving in loginactivity. later would move to business logic
+       loginViewModel.saveLoginUser(model)
                     //----------------------------
                     Toast . makeText (
                     applicationContext,
