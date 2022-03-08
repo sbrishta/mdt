@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sbr.mdt.R
+import com.sbr.mdt.dashboard.data.PopulateTransactionData
 import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
 import com.sbr.mdt.databinding.ActivityMainBinding
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val accountHolder = binding.tvAccountHolder
         val makeTransfer = binding.btnMakeTransfer
         val logout = binding.btnLogout
-
+        PopulateTransactionData().formatDate("2022-03-08T16:12:18.054Z")
         val token = SessionManager.fetchAuthToken()
         val repository = TransactionBalanceRepository(token)
         val viewModelProviderFactory = DashBoardViewModelProviderFactory(repository)
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.transactions.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
+                    response.data?.let { viewModel.populateData(it.data) }
                     Log.d("TRANSACTION", response.data.toString())
                 }
                 is Resource.Error -> {
@@ -79,6 +81,12 @@ class MainActivity : AppCompatActivity() {
                 is Resource.Loading -> {
                     //show loading progress bar
                 }
+            }
+        })
+        viewModel.transactionLists.observe(this, Observer { items ->
+            items.let{
+                //submitlist(it)
+                Log.d("TREVOR",it.get(0).transactionItems.toString())
             }
         })
     }
