@@ -104,15 +104,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("MAIN","onRestart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("MAIN","onResume")
-    }
     override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
         return true
