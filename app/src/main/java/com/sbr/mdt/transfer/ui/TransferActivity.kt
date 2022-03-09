@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -28,7 +29,14 @@ class TransferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTransferBinding.inflate(layoutInflater)
         setContentView(binding.root)
+// calling the action bar
+        val actionBar = supportActionBar;
 
+        // showing the back button in action bar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setDisplayShowTitleEnabled(false)
+        }
         val spPayee = binding.spPayee
         val amount = binding.etAmount
         val description = binding.etDescription
@@ -103,6 +111,16 @@ class TransferActivity : AppCompatActivity() {
             startMakingTransfer(loading,amount, description)
         }
 
+    }
+
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

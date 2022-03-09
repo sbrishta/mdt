@@ -1,5 +1,6 @@
 package com.sbr.mdt.dashboard.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.sbr.mdt.dashboard.data.transactions.TransactionInfo
 import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
 import com.sbr.mdt.util.Resource
+import com.sbr.mdt.util.SessionManager
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -68,6 +70,7 @@ class DashBoardViewModel(val repository:TransactionBalanceRepository): ViewModel
     }
     fun logout(){
         //clear user data,user info
+        SessionManager.clearData()
     }
 
 }

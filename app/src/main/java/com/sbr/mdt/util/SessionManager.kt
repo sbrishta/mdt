@@ -79,4 +79,7 @@ object SessionManager  {
         //type Class < T >" is used to cast.
         return GsonBuilder().create().fromJson(value, T::class.java)
     }
+    fun clearData(){
+        preferences.edit().clear().apply()
+    }
 }

@@ -3,6 +3,8 @@ package com.sbr.mdt.dashboard.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -30,12 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val balance = binding.tvBalance
         val accountNo = binding.tvAccountNo
         val accountHolder = binding.tvAccountHolder
         val makeTransfer = binding.btnMakeTransfer
-        val logout = binding.btnLogout
 
         val rvTransactionHistory = binding.rvTransactionHistory
         //val dateAdapter = TransactionDateHeaderListAdapter()
@@ -64,9 +66,7 @@ class MainActivity : AppCompatActivity() {
             goToTransfer()
 
         }
-        logout.setOnClickListener{
-            viewModel.logout()
-        }
+
         viewModel.userBalance.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -102,6 +102,27 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
+        menuInflater.inflate(R.menu.main_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        when (item.itemId) {
+            R.id.logout_menu -> {
+                logout()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun logout() {
+        viewModel.logout()
+        finish()
+    }
+
     private fun setBalanceData(response:Resource<BalanceGetResponse>,balance:TextView){
         val balanceData = response.data?.balance?.toDouble()
         val formatted = java.lang.String.format(Locale.getDefault(),getString(R.string.currency_formatter), balanceData)
