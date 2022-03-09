@@ -98,11 +98,21 @@ class MainActivity : AppCompatActivity() {
             items.let{
                 //adapter.submitList(it[0].transactionItems)
                 dateAdapter.transactionHistory = it
-                dateAdapter.notifyItemRangeInserted(0,it.size-1)
+                dateAdapter.notifyItemRangeRemoved(0,it.size)
+                dateAdapter.notifyItemRangeInserted(0,it.size)
             }
         })
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("MAIN","onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MAIN","onResume")
+    }
     override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
         return true
