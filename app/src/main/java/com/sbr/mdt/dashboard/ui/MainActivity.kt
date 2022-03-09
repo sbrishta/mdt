@@ -115,8 +115,16 @@ class MainActivity : AppCompatActivity() {
                 logout()
                 return true
             }
+            R.id.refresh -> {
+                refreshData()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun refreshData() {
+        viewModel.getBalanceData()
+        viewModel.getTransactions()
     }
 
     private fun logout() {
