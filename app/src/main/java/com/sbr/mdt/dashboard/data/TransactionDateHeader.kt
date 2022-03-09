@@ -6,4 +6,8 @@ import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
 
 data class TransactionDateHeader(
     val date : String,
-    val transactionItems : List<TransactionInfo>)
+    val transactionItems : List<TransactionInfo>):ListItem(){
+    override val type : Int
+        get() = ListItem.TYPE_DATE
+
+}

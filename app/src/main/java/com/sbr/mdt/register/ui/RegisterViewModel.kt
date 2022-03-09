@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sbr.mdt.R
-import com.sbr.mdt.login.data.api.LoginRequest
-import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.register.api.RegisterRequest
 import com.sbr.mdt.register.api.RegisterResponse
 import com.sbr.mdt.register.repository.RegisterRepository

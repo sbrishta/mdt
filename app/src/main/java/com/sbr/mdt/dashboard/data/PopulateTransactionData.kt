@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.ofPattern
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 class PopulateTransactionData {
     fun getConsolidatedHeader(listOfItems : List<TransactionInfo>):List<TransactionDateHeader>{
@@ -22,7 +23,7 @@ class PopulateTransactionData {
         return listOfTransactionHeaders
     }
     private fun groupDataIntoHashMap(listOfItems : List<TransactionInfo>) : HashMap<String, MutableList<TransactionInfo>>? {
-        val groupedHashMap : HashMap<String, MutableList<TransactionInfo>> = HashMap()
+        val groupedHashMap : LinkedHashMap<String, MutableList<TransactionInfo>> = LinkedHashMap()
         for (eachItem in listOfItems) {
             val hashMapKey : String = formatDate(eachItem.transactionDate)
             if (groupedHashMap.containsKey(hashMapKey)) {
@@ -36,7 +37,7 @@ class PopulateTransactionData {
                 groupedHashMap[hashMapKey] = list
             }
         }
-        groupedHashMap.toSortedMap()
+        //groupedHashMap.toSortedMap()
         return groupedHashMap
     }
 
