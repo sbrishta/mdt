@@ -1,4 +1,4 @@
-package com.sbr.mdt.dashboard.data
+package com.sbr.mdt.dashboard.data.adapter_helper
 
 abstract class ListItem {
     abstract val type : Int

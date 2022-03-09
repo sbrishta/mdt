@@ -9,14 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sbr.mdt.R
-import com.sbr.mdt.dashboard.data.PopulateTransactionData
 import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
-import com.sbr.mdt.dashboard.ui.adapter.TransactionDateHeaderListAdapter
-import com.sbr.mdt.dashboard.ui.adapter.TransactionItemListAdapter
+import com.sbr.mdt.dashboard.ui.adapter.TransactionGroupedListAdapter
+
 import com.sbr.mdt.databinding.ActivityMainBinding
 import com.sbr.mdt.login.data.api.LoginResponse
-import com.sbr.mdt.register.ui.RegisterActivity
 import com.sbr.mdt.transfer.ui.TransferActivity
 import com.sbr.mdt.util.Constants
 import com.sbr.mdt.util.Resource
@@ -40,7 +38,8 @@ class MainActivity : AppCompatActivity() {
         val logout = binding.btnLogout
 
         val rvTransactionHistory = binding.rvTransactionHistory
-        val dateAdapter = TransactionDateHeaderListAdapter()
+        //val dateAdapter = TransactionDateHeaderListAdapter()
+        val dateAdapter = TransactionGroupedListAdapter()
         rvTransactionHistory.adapter = dateAdapter
         rvTransactionHistory.isNestedScrollingEnabled = false
         rvTransactionHistory.adapter = dateAdapter
@@ -99,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             items.let{
                 //adapter.submitList(it[0].transactionItems)
                 dateAdapter.transactionHistory = it
-                dateAdapter.notifyItemRangeInserted(0,it.size)
+                dateAdapter.notifyItemRangeInserted(0,it.size-1)
             }
         })
     }

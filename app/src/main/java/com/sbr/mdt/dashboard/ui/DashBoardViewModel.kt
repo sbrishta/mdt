@@ -3,8 +3,8 @@ package com.sbr.mdt.dashboard.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sbr.mdt.dashboard.data.PopulateTransactionData
-import com.sbr.mdt.dashboard.data.TransactionDateHeader
+import com.sbr.mdt.dashboard.data.adapter_helper.ListItem
+import com.sbr.mdt.dashboard.data.adapter_helper.PopulateTransactionData
 import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.dashboard.data.transactions.TransactionInfo
 import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
@@ -52,14 +52,20 @@ class DashBoardViewModel(val repository:TransactionBalanceRepository): ViewModel
         return Resource.Error(response.body(),response.errorBody().toString()+response.message())
     }
 
-    val transactionLists : MutableLiveData<List<TransactionDateHeader>> = MutableLiveData()
+//    val transactionLists : MutableLiveData<List<TransactionDateHeader>> = MutableLiveData()
+//    fun populateData(listOfItem:List<TransactionInfo>){
+//        viewModelScope.launch {
+//            val response = PopulateTransactionData().getConsolidatedHeader(listOfItem)
+//            transactionLists.postValue(response)
+//        }
+//    }
+    val transactionLists : MutableLiveData<List<ListItem>> = MutableLiveData()
     fun populateData(listOfItem:List<TransactionInfo>){
         viewModelScope.launch {
             val response = PopulateTransactionData().getConsolidatedHeader(listOfItem)
             transactionLists.postValue(response)
         }
     }
-
     fun logout(){
         //clear user data,user info
     }

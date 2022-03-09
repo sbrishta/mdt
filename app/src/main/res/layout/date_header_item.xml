@@ -14,17 +14,17 @@
     <TextView
         android:id="@+id/tv_header_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         tools:text="6 Sep 2021" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_transaction_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_weight="1" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_transaction_details"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--        android:layout_weight="1" />-->
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

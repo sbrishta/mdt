@@ -1,29 +1,26 @@
-package com.sbr.mdt.dashboard.data
+package com.sbr.mdt.dashboard.data.adapter_helper
 
-import android.util.Log
 import com.sbr.mdt.dashboard.data.transactions.TransactionInfo
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatter.ofPattern
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
 class PopulateTransactionData {
-    fun getConsolidatedHeader(listOfItems : List<TransactionInfo>):List<TransactionDateHeader>{
+    fun getConsolidatedHeader(listOfItems : List<TransactionInfo>):List<ListItem>{
         val sortedMap = groupDataIntoHashMap(listOfItems)
-        val listOfTransactionHeaders:MutableList<TransactionDateHeader> = ArrayList()
+        val listOfTransactionHeaders:MutableList<ListItem> = ArrayList()
         if (sortedMap != null) {
 
-            sortedMap.forEach {
-                listOfTransactionHeaders.add(TransactionDateHeader(it.key,it.value))
+            sortedMap.forEach { mapItem ->
+                listOfTransactionHeaders.add(TransactionDateHeader(mapItem.key))
+                mapItem.value.forEach { transactionDetailItem -> listOfTransactionHeaders.add(transactionDetailItem) }
             }
         }
         return listOfTransactionHeaders
     }
-    private fun groupDataIntoHashMap(listOfItems : List<TransactionInfo>) : HashMap<String, MutableList<TransactionInfo>>? {
-        val groupedHashMap : LinkedHashMap<String, MutableList<TransactionInfo>> = LinkedHashMap()
+    private fun groupDataIntoHashMap(listOfItems : List<TransactionInfo>) : LinkedHashMap<String, MutableList<ListItem>>? {
+        val groupedHashMap : LinkedHashMap<String, MutableList<ListItem>> = LinkedHashMap()
         for (eachItem in listOfItems) {
             val hashMapKey : String = formatDate(eachItem.transactionDate)
             if (groupedHashMap.containsKey(hashMapKey)) {
@@ -32,7 +29,7 @@ class PopulateTransactionData {
                 groupedHashMap[hashMapKey]?.add(eachItem)
             } else {
                 // The key is not there in the HashMap; create a new key-value pair
-                val list : MutableList<TransactionInfo> = ArrayList()
+                val list : MutableList<ListItem> = ArrayList()
                 list.add(eachItem)
                 groupedHashMap[hashMapKey] = list
             }
