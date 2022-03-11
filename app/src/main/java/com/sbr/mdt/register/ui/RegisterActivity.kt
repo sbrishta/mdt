@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
             when(it){
                 is Resource.Success -> {
                     it.data?.let { it1 -> RegisterResponse(it1.status,it.data.token) }
-                        ?.let { it2 -> updateUiWithUser(it2) }
+                        ?.let { it2 -> updateUiWithUser() }
                 }
                 is Resource.Error -> {
 
