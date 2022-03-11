@@ -9,6 +9,7 @@ import com.sbr.mdt.transfer.data.payees.PayeesGetResponse
 import com.sbr.mdt.transfer.data.post_transfer.TransferRequest
 import com.sbr.mdt.transfer.data.post_transfer.TransferResponse
 import com.sbr.mdt.transfer.repository.TransferRepository
+import com.sbr.mdt.util.NetworkStatus
 import com.sbr.mdt.util.Resource
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -21,9 +22,11 @@ class TransferViewModel(val repository : TransferRepository):ViewModel() {
     }
     private fun getPayees(){
         viewModelScope.launch {
-            allPayees.postValue(Resource.Loading())
-            val response = repository.getPayees()
-            allPayees.postValue(handleGetPayeesResponse(response))
+            if(NetworkStatus.checkForInternet()) {
+                allPayees.postValue(Resource.Loading())
+                val response = repository.getPayees()
+                allPayees.postValue(handleGetPayeesResponse(response))
+            }else allPayees.postValue(Resource.NetworkError(R.string.no_internet_message))
         }
     }
     private fun handleGetPayeesResponse(response: Response<PayeesGetResponse>): Resource<PayeesGetResponse> {
@@ -38,8 +41,16 @@ class TransferViewModel(val repository : TransferRepository):ViewModel() {
 
     fun makeTransfer(amount:Double,description:String,receipientAccountNo:String){
         viewModelScope.launch {
-            val response = repository.makeTransfer(TransferRequest(amount, description, receipientAccountNo))
-            transferResponse.postValue(handleTransferResponse(response))
+            if(NetworkStatus.checkForInternet()) {
+                val response = repository.makeTransfer(
+                    TransferRequest(
+                        amount,
+                        description,
+                        receipientAccountNo
+                    )
+                )
+                transferResponse.postValue(handleTransferResponse(response))
+            }else transferResponse.postValue(Resource.NetworkError(R.string.no_internet_message))
         }
     }
 
@@ -68,7 +79,7 @@ class TransferViewModel(val repository : TransferRepository):ViewModel() {
     }
 
     private fun isAmountValid(amount : String) : Boolean {
-        if(amount.length > 0 ){
+        if(amount.isNotEmpty()){
             val amountData = amount.toDouble()
             return amountData > 0
         }

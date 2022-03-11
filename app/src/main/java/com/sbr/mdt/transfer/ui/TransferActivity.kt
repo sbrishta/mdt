@@ -30,7 +30,7 @@ class TransferActivity : AppCompatActivity() {
         binding = ActivityTransferBinding.inflate(layoutInflater)
         setContentView(binding.root)
 // calling the action bar
-        val actionBar = supportActionBar;
+        val actionBar = supportActionBar
 
         // showing the back button in action bar
         if (actionBar != null) {
@@ -65,6 +65,9 @@ class TransferActivity : AppCompatActivity() {
                 is Resource.Loading -> {
 
                 }
+                is Resource.NetworkError ->{
+                    showTransferFailed(response.errorCode?.let { getString(it) })
+                }
             }
         })
 
@@ -80,6 +83,9 @@ class TransferActivity : AppCompatActivity() {
                 }
                 is Resource.Loading ->{
 
+                }
+                is Resource.NetworkError -> {
+                    response.errorCode?.let { showTransferFailed(getString(it)) }
                 }
             }
 

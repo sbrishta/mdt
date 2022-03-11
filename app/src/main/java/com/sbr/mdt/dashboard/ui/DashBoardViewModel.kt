@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sbr.mdt.R
 import com.sbr.mdt.dashboard.data.adapter_helper.ListItem
 import com.sbr.mdt.dashboard.data.adapter_helper.PopulateTransactionData
 import com.sbr.mdt.dashboard.data.balance.BalanceGetResponse
 import com.sbr.mdt.dashboard.data.transactions.TransactionInfo
 import com.sbr.mdt.dashboard.data.transactions.TransactionsGetResponse
 import com.sbr.mdt.dashboard.repository.TransactionBalanceRepository
+import com.sbr.mdt.util.NetworkStatus
 import com.sbr.mdt.util.Resource
 import com.sbr.mdt.util.SessionManager
 import kotlinx.coroutines.launch
@@ -25,8 +27,10 @@ class DashBoardViewModel(val repository:TransactionBalanceRepository): ViewModel
     fun getBalanceData(){
         viewModelScope.launch {
             userBalance.postValue(Resource.Loading())
-            val response = repository.getBalance()
-            userBalance.postValue(handleGetBalanceResponse(response))
+            if(NetworkStatus.checkForInternet()) {
+                val response = repository.getBalance()
+                userBalance.postValue(handleGetBalanceResponse(response))
+            }else userBalance.postValue(Resource.NetworkError(errorMessage = R.string.no_internet_message))
         }
     }
     private fun handleGetBalanceResponse(response: Response<BalanceGetResponse>):Resource<BalanceGetResponse>{
@@ -41,8 +45,10 @@ class DashBoardViewModel(val repository:TransactionBalanceRepository): ViewModel
     fun getTransactions(){
         viewModelScope.launch {
             transactions.postValue(Resource.Loading())
-            val response = repository.getTransactions()
-            transactions.postValue(handleTransactionsResponse(response))
+            if(NetworkStatus.checkForInternet()) {
+                val response = repository.getTransactions()
+                transactions.postValue(handleTransactionsResponse(response))
+            }else transactions.postValue(Resource.NetworkError(R.string.no_internet_message))
         }
     }
     private fun handleTransactionsResponse(response: Response<TransactionsGetResponse>):Resource<TransactionsGetResponse>{

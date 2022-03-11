@@ -9,6 +9,7 @@ import com.sbr.mdt.login.data.LoginRepository
 import com.sbr.mdt.login.data.api.LoginRequest
 import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.util.Constants
+import com.sbr.mdt.util.NetworkStatus
 import com.sbr.mdt.util.Resource
 import com.sbr.mdt.util.SessionManager
 import kotlinx.coroutines.launch
@@ -24,8 +25,10 @@ class LoginViewModel(private val loginRepository : LoginRepository) : ViewModel(
 
     fun login(username : String,password : String){
         viewModelScope.launch {
-            val response = loginRepository.login(LoginRequest(username,password))
-            loginResponse.postValue(handleLoginResponse(response))
+            if(NetworkStatus.checkForInternet()) {
+                val response = loginRepository.login(LoginRequest(username, password))
+                loginResponse.postValue(handleLoginResponse(response))
+            }else loginResponse.postValue(Resource.NetworkError(errorMessage = R.string.no_internet_message))
         }
     }
 

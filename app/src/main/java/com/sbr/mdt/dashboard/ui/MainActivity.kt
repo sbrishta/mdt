@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,7 @@ import com.sbr.mdt.databinding.ActivityMainBinding
 import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.transfer.ui.TransferActivity
 import com.sbr.mdt.util.Constants
+import com.sbr.mdt.util.NetworkStatus
 import com.sbr.mdt.util.Resource
 import com.sbr.mdt.util.SessionManager
 import java.util.*
@@ -66,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             goToTransfer()
 
         }
-
         viewModel.userBalance.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -77,6 +79,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 is Resource.Loading -> {
                     //show loading progress bar
+                }
+                is Resource.NetworkError -> {
+                    response.errorCode?.let { showLoginFailed(it) }
                 }
             }
         })
@@ -91,6 +96,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 is Resource.Loading -> {
                     //show loading progress bar
+                }
+                is Resource.NetworkError -> {
+                    response.errorCode?.let { showLoginFailed(it) }
                 }
             }
         })
@@ -141,5 +149,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, TransferActivity::class.java)
         // start main activity
         startActivity(intent)
+    }
+    private fun showLoginFailed(@StringRes errorString : Int) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }

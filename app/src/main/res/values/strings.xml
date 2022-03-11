@@ -16,6 +16,7 @@
     <string name="invalid_password">Password required</string>
     <string name="invalid_confirm_password">Confirm password doesn\'t match </string>
     <string name="login_failed">"Login failed"</string>
+    <string name="no_internet_message">Internet unavailable</string>
     <string name="welcome">Welcome!</string>
     <string name="register_success">Registration successful</string>
     <string name="register_failed">Registration failed</string>

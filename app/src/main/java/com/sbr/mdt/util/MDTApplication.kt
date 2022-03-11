@@ -7,6 +7,6 @@ class MDTApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         SessionManager.with(this)
-
+        NetworkStatus.with(this)
     }
 }

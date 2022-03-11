@@ -82,6 +82,9 @@ class RegisterActivity : AppCompatActivity() {
                 is Resource.Loading ->{
                     //wait for the loading to finish. might showing please wait message in future
                 }
+                is Resource.NetworkError -> {
+                    it.errorCode?.let { showLoginFailed(getString(it)) }
+                }
             }
         })
         username.afterTextChanged {
@@ -138,9 +141,9 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun updateUiWithUser(model : RegisterResponse) {
+    private fun updateUiWithUser() {
         val welcome = getString(R.string.register_success)
-        val displayName =
+
 
                     Toast . makeText (
                     applicationContext,

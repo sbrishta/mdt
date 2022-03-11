@@ -23,6 +23,7 @@ import com.sbr.mdt.dashboard.ui.MainActivity
 import com.sbr.mdt.databinding.ActivityLoginBinding
 import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.register.ui.RegisterActivity
+import com.sbr.mdt.util.NetworkStatus
 import com.sbr.mdt.util.Resource
 
 class LoginActivity : AppCompatActivity() {
@@ -34,7 +35,9 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        if(!NetworkStatus.checkForInternet()){
+            showLoginFailed(R.string.no_internet_message)
+        }
         val username = binding.etUsername
         val password = binding.etPassword
         val login = binding.btnLogin
@@ -72,6 +75,9 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Resource.Loading ->{
                     //wait for the loading to finish. might showing please wait message in future
+                }
+                is Resource.NetworkError -> {
+                    it.errorCode?.let { showLoginFailed(it) }
                 }
             }
         })
@@ -117,9 +123,9 @@ class LoginActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
     private fun startLogin(loading:ProgressBar,username:TextInputEditText,password:TextInputEditText){
-        loading.visibility = View.VISIBLE
-        hideKeyboard((currentFocus?: this) as View)
-        loginViewModel.login(username.text.toString().trim(), password.text.toString().trim())
+            loading.visibility = View.VISIBLE
+            hideKeyboard((currentFocus ?: this) as View)
+            loginViewModel.login(username.text.toString().trim(), password.text.toString().trim())
     }
     private fun showDashBoard() {
         val intent = Intent(this, MainActivity::class.java)

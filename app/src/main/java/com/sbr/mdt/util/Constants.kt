@@ -7,5 +7,6 @@ class Constants {
         const val AUTH_KEY = "Authorization"
         const val USER_DATA = "logged_in_user"
         const val PRICE_COLOR = "#FF018786"
+        const val NO_NETWORK = "No Network"
     }
 }
