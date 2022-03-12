@@ -34,7 +34,10 @@ To transfer any balance. Click back button / back navigation menu on top bar to 
 To deploy this project download code from `master` branch ,
 run project on Android studio (tested on Android studio bumblbee), JDK 1.8 and emulator/physical device with minimum sdk level 21. Android name: Lollipop, version 5+
 
+## Testing
+Unit testing for all API available in com.sbr.mdt package /test directory. Run as test to check all unit tests.
 
+The application full flow has been tested in Android 21, 28 and 30 version.
 
 
 ## API Reference
