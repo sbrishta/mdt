@@ -128,13 +128,24 @@ class TransferActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    fun hideKeyboard(activity : Activity) {
+        val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+//    fun Context.hideKeyboard(view: View) {
+//        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+//    }
     private fun startMakingTransfer(loading:ProgressBar,amount:TextInputEditText,description:TextInputEditText){
         loading.visibility = View.VISIBLE
-        hideKeyboard((currentFocus?:this) as View)
+        //hideKeyboard((currentFocus?:this) as View)
+        hideKeyboard(this)
         val amountData = amount.text.toString().toDouble()
         val desc = description.text.toString()
         viewModel.makeTransfer(amountData,desc,selectedPayee.accountNo)

@@ -3,23 +3,23 @@ package com.sbr.mdt.login.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.sbr.mdt.R
 import com.sbr.mdt.dashboard.ui.MainActivity
-
 import com.sbr.mdt.databinding.ActivityLoginBinding
 import com.sbr.mdt.login.data.api.LoginResponse
 import com.sbr.mdt.register.ui.RegisterActivity
@@ -117,14 +117,24 @@ class LoginActivity : AppCompatActivity() {
         // start main activity
         startActivity(intent)
     }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    fun hideKeyboard(activity : Activity) {
+        val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+//    fun Context.hideKeyboard(view: View) {
+//        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+//    }
     private fun startLogin(loading:ProgressBar,username:TextInputEditText,password:TextInputEditText){
             loading.visibility = View.VISIBLE
-            hideKeyboard((currentFocus ?: this) as View)
+            //hideKeyboard((currentFocus ?: this) as ViewGroup)
+            hideKeyboard(this)
             loginViewModel.login(username.text.toString().trim(), password.text.toString().trim())
     }
     private fun showDashBoard() {
