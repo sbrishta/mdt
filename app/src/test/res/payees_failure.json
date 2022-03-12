@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "error": {
+    "name": "TokenExpiredError",
+    "message": "jwt expired",
+    "expiredAt": "2022-03-09T15:39:18.000Z"
+  }
+}

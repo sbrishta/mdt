@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "error": {
+    "name": "JsonWebTokenError",
+    "message": "invalid token"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "transactionId": "6228c3ba83bb3d0198d89050",
+      "amount": 200,
+      "transactionDate": "2022-03-09T15:11:54.257Z",
+      "description": "dhbf",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "6554-630-9653",
+        "accountHolder": "Andy"
+      }
+    },
+    {
+      "transactionId": "6228c37124ccdad363901549",
+      "amount": 500,
+      "transactionDate": "2022-03-09T15:10:41.966Z",
+      "description": "refreshing",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "2833-703-6351",
+        "accountHolder": "Mohammed"
+      }
+    },
+    {
+      "transactionId": "6228c12683bb3d0198d89025",
+      "amount": 200,
+      "transactionDate": "2022-03-09T15:00:54.429Z",
+      "description": "tedt",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "2833-703-6351",
+        "accountHolder": "Mohammed"
+      }
+    },
+    {
+      "transactionId": "6228c0fa83bb3d0198d8901d",
+      "amount": 200,
+      "transactionDate": "2022-03-09T15:00:10.197Z",
+      "description": "vsb",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "1265-467-6977",
+        "accountHolder": "Elsie"
+      }
+    },
+    {
+      "transactionId": "6228bfd683bb3d0198d89006",
+      "amount": 505,
+      "transactionDate": "2022-03-09T14:55:18.040Z",
+      "description": "gg",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "9226-178-8806",
+        "accountHolder": "Alvis"
+      }
+    },
+    {
+      "transactionId": "6228bfae83bb3d0198d88ffc",
+      "amount": 1000,
+      "transactionDate": "2022-03-09T14:54:38.358Z",
+      "description": "test",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "2833-703-6351",
+        "accountHolder": "Mohammed"
+      }
+    },
+    {
+      "transactionId": "6228b36083bb3d0198d88f56",
+      "amount": 500,
+      "transactionDate": "2022-03-09T14:02:08.514Z",
+      "description": "test",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "7174-429-2937",
+        "accountHolder": "Emmie"
+      }
+    },
+    {
+      "transactionId": "6228a94b83bb3d0198d88e21",
+      "amount": 1000,
+      "transactionDate": "2022-03-09T13:19:07.750Z",
+      "description": "test emuator",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "6554-630-9653",
+        "accountHolder": "Andy"
+      }
+    },
+    {
+      "transactionId": "6228a38683bb3d0198d88d97",
+      "amount": 2500,
+      "transactionDate": "2022-03-09T12:54:30.984Z",
+      "description": "first test ",
+      "transactionType": "transfer",
+      "receipient": {
+        "accountNo": "2833-703-6351",
+        "accountHolder": "Mohammed"
+      }
+    },
+    {
+      "transactionId": "6228a35d83bb3d0198d88d8d",
+      "amount": 100000,
+      "transactionDate": "2022-03-09T12:53:49.567Z",
+      "description": "Default money-in transaction",
+      "transactionType": "received",
+      "sender": {
+        "accountNo": "1111-111-1111",
+        "accountHolder": "Jane"
+      }
+    }
+  ]
+}
